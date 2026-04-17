@@ -121,8 +121,8 @@ Dieses Modul enthält alle Interrupt Service Routines (ISRs) und die Button-Logi
 ### Pin-Definitionen (interrupts.h)
 
 ```cpp
-#define KNOPF1_PIN 0    // Button 1 (GPIO 0) – Modus-Wechsel / Schlaf
-#define KNOPF2_PIN 35   // Button 2 (GPIO 35) – Menü / Bestätigung
+#define KNOPF1_PIN 35   // Button 1 (GPIO 35) – Menü / Bestätigung
+#define KNOPF2_PIN 0    // Button 2 (GPIO 0) – Modus-Wechsel / Schlaf
 #define MAGNET_PIN 33   // Magnet-Sensor (GPIO 33) – Geschwindigkeitsimpulse
 ```
 
@@ -149,25 +149,26 @@ pinMode(KNOPF1_PIN, INPUT);
 pinMode(KNOPF2_PIN, INPUT);
 pinMode(MAGNET_PIN, INPUT_PULLUP);
 
-attachInterrupt(digitalPinToInterrupt(KNOPF1_PIN), isrKnopf2, RISING);
-attachInterrupt(digitalPinToInterrupt(KNOPF2_PIN), isrKnopf1, RISING);
+attachInterrupt(digitalPinToInterrupt(KNOPF1_PIN), isrKnopf1, RISING);
+attachInterrupt(digitalPinToInterrupt(KNOPF2_PIN), isrKnopf2, RISING);
 attachInterrupt(digitalPinToInterrupt(MAGNET_PIN), isrMagnet, RISING);
 ```
 
-**Hinweis:** Die Interrupt-Zuordnung ist invertiert:
-- `KNOPF1_PIN` → `isrKnopf2` (Button 1 löst ISR für Button 2 aus)
-- `KNOPF2_PIN` → `isrKnopf1` (Button 2 löst ISR für Button 1 aus)
+**Pin-Zuordnung:**
+- `KNOPF1_PIN` (GPIO 35) → `isrKnopf1` – Button 1 (Menü/Bestätigung)
+- `KNOPF2_PIN` (GPIO 0) → `isrKnopf2` – Button 2 (Modus-Wechsel/Schlaf)
+- `MAGNET_PIN` (GPIO 33) → `isrMagnet` – Magnet-Sensor
 
 ### isrKnopf1()
 
-Interrupt-Handler für Button 2 (physikalisch):
+Interrupt-Handler für Button 1 (GPIO 35):
 - **Debounce:** 30ms Verzögerung gegen Tasten-Flatter
 - **DISPLAY_MODE_SELECTOR:** Wechselt den Anzeigemodus
 - **GRAPH_TIME_SELECTOR:** Zyklisch durch 30s → 60s → 120s → 30s
 
 ### isrKnopf2()
 
-Interrupt-Handler für Button 1 (physikalisch):
+Interrupt-Handler für Button 2 (GPIO 0):
 - Prüft ob Menü-Modus aktiv → wechselt zu `MENU_SELECTOR`
 - Andernfalls → `SLEEP_REQUESTER` (Schlaf anfordern)
 - Im Menü: Übergang zwischen Modi oder Bestätigung der Graph-Auswahl
@@ -479,8 +480,8 @@ isrKnopf1() →
 
 ### Verwendete Hardware
 
-- **ESP32** (oder kompatibles Board)
-- **TFT-Display** (TFT_eSPI Bibliothek)
+- **ESP32** 
+- **TFT-Display** 
 - **Magnet-Sensor** (Reed-Kontakt oder Hall-Sensor)
 - **2 Buttons** für Benutzerinteraktion
 
@@ -488,9 +489,9 @@ isrKnopf1() →
 
 | GPIO | Funktion |
 |------|----------|
-| 0 | Button 1 (Modus-Wechsel) |
+| 0 | Button 2 (Modus-Wechsel/Schlaf) |
 | 33 | Magnet-Sensor |
-| 35 | Button 2 (Menü/Schlaf) |
+| 35 | Button 1 (Menü/Bestätigung) |
 
 ### Wichtige Konstanten
 

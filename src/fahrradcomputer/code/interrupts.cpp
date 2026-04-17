@@ -23,8 +23,8 @@ void setupInterrupts() {
     pinMode(KNOPF2_PIN, INPUT);
     pinMode(MAGNET_PIN, INPUT_PULLUP);
 
-    attachInterrupt(digitalPinToInterrupt(KNOPF1_PIN), isrKnopf2, RISING);
-    attachInterrupt(digitalPinToInterrupt(KNOPF2_PIN), isrKnopf1, RISING);
+    attachInterrupt(digitalPinToInterrupt(KNOPF1_PIN), isrKnopf1, RISING);
+    attachInterrupt(digitalPinToInterrupt(KNOPF2_PIN), isrKnopf2, RISING);
     attachInterrupt(digitalPinToInterrupt(MAGNET_PIN), isrMagnet, RISING);
 }
 
