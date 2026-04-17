@@ -28,6 +28,10 @@ A bicycle computer project built with PlatformIO.
 
 Mount the sensor on your bicycle wheel and display on the handlebars. The computer will automatically track your ride data.
 
+## Documentation
+- [Documentation (German)](docs/Dokumentation-de.md)
+- [Documentation (English)](docs/Documentation-en.md)
+
 ## License
 
 this project doesn't have a license. 
