@@ -71,15 +71,15 @@ if (sleepRequested) {
     while (digitalRead(KNOPF1_PIN) == HIGH) {
         delay(10);
     }
-    // Enable light sleep and wake on button interrupt
-    esp_sleep_enable_ext1_wakeup(1ULL << KNOPF1_PIN, ESP_EXT1_WAKEUP_ANY_HIGH);
+    // Enable light sleep and wake on Button 2
+    esp_sleep_enable_ext1_wakeup(1ULL << KNOPF2_PIN, ESP_EXT1_WAKEUP_ANY_HIGH);
     esp_deep_sleep_start();
     sleepRequested = false;
 }
 ```
 
 - When sleep is requested, the program waits for button release
-- The ESP32 is put into deep sleep and woken up by Button 1
+- The ESP32 is put into deep sleep and woken up by **Button 2 (GPIO 0)**
 
 ---
 
@@ -460,19 +460,21 @@ double getGraphMaxSpeed(const double* samples, uint8_t sampleCount) {
 isrMagnet() → tagkm() + calculateSpeed() → displayCurrentMode()
 ```
 
-**Button 1 (physical):**
+**Button 1 (GPIO 35) – Mode Change:**
 ```
 isrKnopf1() →
   DISPLAY_MODE_SELECTOR: updateDisplayMode()
   GRAPH_TIME_SELECTOR: handleGraphOptionSelection()
 ```
 
-**Button 2 (physical):**
+**Button 2 (GPIO 0) – Sleep/Menu:**
 ```
 isrKnopf2() → 
   If MENU: MENU_SELECTOR → handleButton1ModeTransition()
   Otherwise: SLEEP_REQUESTER → sleepRequested = true
 ```
+
+> **Note:** Deep Sleep is terminated by **Button 2 (GPIO 0)**.
 
 ---
 

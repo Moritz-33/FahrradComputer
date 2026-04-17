@@ -36,7 +36,7 @@ void loop() {
       delay(10);
     }
     // Enter light sleep and wake on button press
-    esp_sleep_enable_ext1_wakeup(1ULL << KNOPF1_PIN, ESP_EXT1_WAKEUP_ANY_HIGH);
+    esp_sleep_enable_ext1_wakeup(1ULL << KNOPF2_PIN, ESP_EXT1_WAKEUP_ANY_HIGH);
     esp_deep_sleep_start();
     sleepRequested = false;
   }
